@@ -6,10 +6,6 @@
   </div>
 </template>
 
-<script setup>
-import { useRoute } from "vue-router";
-
-const router = useRoute();
-</script>
+<script setup></script>
 
 <style lang="scss" scoped></style>

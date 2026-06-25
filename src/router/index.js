@@ -35,12 +35,12 @@ const routes = [
     path: "/post/:id", // 세미콜론은 다이나믹 라우팅
     component: PostDetailView,
     name: "postDetail",
-    // props: true,
-    props: (route) => {
-      return {
-        id: parseInt(route.params.id),
-      };
-    },
+    props: true,
+    // props: (route) => {
+    //   return {
+    //     id: parseInt(route.params.id),
+    //   };
+    // },
   },
   {
     path: "/post/:id/edit",
