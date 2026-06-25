@@ -1,5 +1,7 @@
 <template>
-  <main class="container py-4">hello vue3</main>
+  <main class="container py-4">
+    <RouterView />
+  </main>
 </template>
 
 <script setup></script>
