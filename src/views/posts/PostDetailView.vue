@@ -3,6 +3,7 @@
     <h2>{{ post.title }}</h2>
     <p>{{ post.data }}</p>
     <p class="text-muted">{{ post.contents }}</p>
+    <p class="text-muted">{{ post.createdAt }}</p>
     <div class="row g-2">
       <div class="col-auto">
         <button class="btn btn-outline-dark">이전글</button>
@@ -15,10 +16,14 @@
         <button class="btn btn-outline-dark" @click="goListPage">목록</button>
       </div>
       <div class="col-auto">
-        <button class="btn btn-outline-primary" @click="goEditPage">수정</button>
+        <button class="btn btn-outline-primary" @click="goEditPage">
+          수정
+        </button>
       </div>
       <div class="col-auto">
-        <button class="btn btn-outline-danger" @click="goDeleteItem">삭제</button>
+        <button class="btn btn-outline-danger" @click="goDeleteItem">
+          삭제
+        </button>
       </div>
     </div>
   </div>

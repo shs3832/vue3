@@ -1,24 +1,12 @@
 <template>
   <div>
     <h2>게시글 수정</h2>
-    <form @submit.prevent>
-      <div class="mb-3">
-        <label for="title" class="form-label">제목</label>
-        <input type="text" class="form-control" id="title" v-model="form.title" />
-      </div>
-      <div class="mb-3">
-        <label for="contents" class="form-label">내용</label>
-        <textarea class="form-control" id="contents" rows="3" v-model="form.contents"></textarea>
-      </div>
-      <div class="row g-2">
-        <div class="col-auto">
-          <button class="btn btn-outline-danger" @click="goListPage">취소</button>
-        </div>
-        <div class="col-auto">
-          <button class="btn btn-outline-primary" @click="goEditPage">수정</button>
-        </div>
-      </div>
-    </form>
+    <PostForm v-model:title="form.title" v-model:contents="form.contents" @submit.prevent="goEditPage">
+      <template #actions>
+        <button type="button" class="btn btn-outline-danger" @click="goListPage">취소</button>
+        <button type="submit" class="btn btn-outline-primary">수정</button>
+      </template>
+    </PostForm>
   </div>
 </template>
 
@@ -26,6 +14,7 @@
 import { useRoute, useRouter } from "vue-router";
 import { getPostById, updatePost } from "@/api/posts.js";
 import { ref } from "vue";
+import PostForm from "@/components/posts/PostForm.vue";
 
 const router = useRouter();
 const route = useRoute();

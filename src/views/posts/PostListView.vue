@@ -2,43 +2,29 @@
   <div>
     <h2>게시글 목록</h2>
     <hr class="my-4" />
-    <form @submit.prevent>
-      <div class="row g-3">
-        <div class="col">
-          <input type="text" class="form-control" v-model="params.title_like" />
-        </div>
-        <div class="col-3">
-          <select class="form-select" v-model="params._limit">
-            <option value="3">3</option>
-            <option value="6">6</option>
-            <option value="9">9</option>
-          </select>
-        </div>
-      </div>
-    </form>
+    <PostFilter
+      v-model:title="params.title_like"
+      v-model:limit="params._limit"
+    ></PostFilter>
     <hr class="my-4" />
     <div class="row g-3">
-      <div class="col-4" v-for="post in posts" :key="post.id">
-        <PostItem :title="post.title" :contents="post.contents" :createAt="post.createdAt" @click="goPage(post.id)" />
-      </div>
-      <nav aria-label="Page navigation example mt-5">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{ disabled: params._page === 1 }">
-            <a class="page-link" href="#" aria-label="Previous" @click.prevent="pageArrow('prev')">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item" v-for="page in pageCount" :key="page" :class="{ active: params._page === page }">
-            <a class="page-link" href="#" @click.prevent="pageMove(page)">{{ page }}</a>
-          </li>
-          <li class="page-item" :class="{ disabled: !(params._page < pageCount) }">
-            <a class="page-link" href="#" aria-label="Next" @click.prevent="pageArrow('next')">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <AppGridList :items="posts">
+        <template v-slot="{ item }">
+          <PostItem
+            :title="item.title"
+            :contents="item.contents"
+            :createAt="item.createdAt"
+            @click="goPage(item.id)"
+        /></template>
+      </AppGridList>
+
+      <AppPagination
+        :currentPage="params._page"
+        :pageCount="pageCount"
+        @page="pageMove"
+      />
     </div>
+
     <hr class="my-4" />
     <AppCard>
       <PostDetailView :id="2" />
@@ -51,6 +37,9 @@ import { computed, ref, watchEffect } from "vue";
 import PostItem from "@/components/posts/PostItem.vue";
 import PostDetailView from "./PostDetailView.vue";
 import AppCard from "@/components/AppCard.vue";
+import AppPagination from "@/components/AppPagination.vue";
+import AppGridList from "@/components/AppGridList.vue";
+import PostFilter from "@/components/posts/PostFilter.vue";
 import { getPosts } from "@/api/posts.js";
 import { useRouter } from "vue-router";
 const params = ref({
@@ -69,9 +58,7 @@ const router = useRouter();
 const pageMove = (page) => {
   params.value._page = page;
 };
-const pageArrow = (dir) => {
-  dir === "next" ? ++params.value._page : --params.value._page;
-};
+
 const fetchPosts = async () => {
   try {
     const { data, headers } = await getPosts(params.value);
