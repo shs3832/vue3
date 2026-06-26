@@ -6,9 +6,17 @@
         {{ contents }}
       </p>
       <p class="text-muted">
-        {{ createAt }}
-      </p></AppCard
-    >
+        {{ createdAt || "날짜 없음" }}
+      </p>
+      <template #footer>
+        <button
+          class="btn p-0 d-flex flex-row-reverse"
+          @click.stop="$emit('modal')"
+        >
+          <i class="bi bi-box-arrow-up-right"></i>
+        </button>
+      </template>
+    </AppCard>
   </div>
 </template>
 
@@ -25,14 +33,14 @@ defineProps({
     type: String,
     required: true,
   },
-  createAt: {
+  createdAt: {
     // 날짜 값은 API나 화면 구현에 따라 문자열, Date, 숫자 timestamp로 올 수 있다.
     type: [String, Date, Number],
     required: true,
   },
 });
 
-const emit = defineEmits(["click"]);
+const emit = defineEmits(["click", "modal"]);
 import AppCard from "../AppCard.vue";
 </script>
 

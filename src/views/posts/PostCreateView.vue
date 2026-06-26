@@ -16,7 +16,13 @@
         </button>
       </template>
     </PostForm>
-    <AppAlert :show="showAlert" :message="alertMessage" :type="alertType" />
+    <!-- <AppAlert :show="showAlert" :message="alertMessage" :type="alertType" /> -->
+    <AppAlert
+      :items="alerts"
+      :show="showAlert"
+      :message="alertMessage"
+      :type="alertType"
+    />
   </div>
 </template>
 
@@ -38,9 +44,11 @@ const form = ref({
 });
 
 const stateSave = ref(false);
-
+const alerts = ref([]);
 const savePost = async () => {
   try {
+    vAlert("수정이 완료 되었습니다.", "success");
+    return;
     if (!form.value.title || !form.value.contents) {
       vAlert("내용을 입력하세요.", "error");
       return;
@@ -57,14 +65,18 @@ const savePost = async () => {
 };
 
 const showAlert = ref(false);
-const alertMessage = ref("");
-const alertType = ref("");
+// const alertMessage = ref("");
+// const alertType = ref("");
+
 const vAlert = (message, type = "error") => {
-  showAlert.value = true;
-  alertMessage.value = message;
-  alertType.value = type;
+  alerts.value.push({ message, type });
+  // console.log(alerts.value[0]);
+  // showAlert.value = true;
+  // alertMessage.value = message;
+  // alertType.value = type;
   setTimeout(() => {
-    showAlert.value = false;
+    // showAlert.value = false;
+    alerts.value.shift();
   }, 2000);
 };
 </script>
