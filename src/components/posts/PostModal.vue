@@ -3,7 +3,7 @@
     <template #default>
       <p>제목 : {{ title }}</p>
       <p>내용 : {{ contents }}</p>
-      <p>등록일 : {{ createdAt }}</p>
+      <p>등록일 : {{ $dayjs(createdAt).format("YYYY. MM. DD HH:mm:ss") }}</p>
     </template>
     <template #actions>
       <button
@@ -21,7 +21,6 @@
 
 <script setup>
 import { computed } from "vue";
-import AppModal from "../AppModal.vue";
 
 const props = defineProps({
   modelValue: Boolean,

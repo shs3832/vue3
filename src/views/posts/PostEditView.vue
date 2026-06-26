@@ -1,9 +1,19 @@
 <template>
   <div>
     <h2>게시글 수정</h2>
-    <PostForm v-model:title="form.title" v-model:contents="form.contents" @submit.prevent="goEditPage">
+    <PostForm
+      v-model:title="form.title"
+      v-model:contents="form.contents"
+      @submit.prevent="goEditPage"
+    >
       <template #actions>
-        <button type="button" class="btn btn-outline-danger" @click="goListPage">취소</button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          @click="goListPage"
+        >
+          취소
+        </button>
         <button type="submit" class="btn btn-outline-primary">수정</button>
       </template>
     </PostForm>
@@ -15,6 +25,8 @@ import { useRoute, useRouter } from "vue-router";
 import { getPostById, updatePost } from "@/api/posts.js";
 import { ref } from "vue";
 import PostForm from "@/components/posts/PostForm.vue";
+import useAlert from "@/hooks/useAlert";
+const { vSuccess } = useAlert();
 
 const router = useRouter();
 const route = useRoute();
@@ -37,6 +49,7 @@ const setForm = ({ title, contents }) => {
 fetchPost();
 const goEditPage = async () => {
   await updatePost(id, { ...form.value });
+  vSuccess("수정이 완료 되었습니다.");
   router.push({ name: "postDetail", params: { id } });
 };
 </script>

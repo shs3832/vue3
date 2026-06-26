@@ -13,12 +13,23 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    // console.log(this.$person.name);
+    // this.$person.say();
+  },
+};
+</script>
+
 <script setup>
-import AppGridList from "@/components/AppGridList.vue";
-import AppCard from "@/components/AppCard.vue";
-import { ref } from "vue";
+import { inject, ref } from "vue";
 
 const items = ref(["사과", "딸기", "포도", "바나나"]);
+const person = inject("person");
+console.log(person);
+const functionPerson = inject("functionPerson");
+console.log(functionPerson);
 </script>
 
 <style lang="scss" scoped></style>

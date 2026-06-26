@@ -3,7 +3,9 @@
     <h2>{{ post.title }}</h2>
     <p>{{ post.data }}</p>
     <p class="text-muted">{{ post.contents }}</p>
-    <p class="text-muted">{{ post.createdAt }}</p>
+    <p class="text-muted">
+      {{ $dayjs(post.createdAt).format("YYYY. MM. DD HH:mm:ss") }}
+    </p>
     <div class="row g-2">
       <div class="col-auto">
         <button class="btn btn-outline-dark">이전글</button>

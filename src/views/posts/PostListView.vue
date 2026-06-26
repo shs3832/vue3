@@ -10,7 +10,7 @@
           <PostItem
             :title="item.title"
             :contents="item.contents"
-            :createAt="item.createdAt"
+            :createdAt="item.createdAt"
             @click="goPage(item.id)"
             @modal="openModal(item)"
         /></template>
@@ -54,13 +54,10 @@
 import { computed, ref, watchEffect } from "vue";
 import PostItem from "@/components/posts/PostItem.vue";
 import PostDetailView from "./PostDetailView.vue";
-import AppCard from "@/components/AppCard.vue";
-import AppPagination from "@/components/AppPagination.vue";
-import AppGridList from "@/components/AppGridList.vue";
+
 import PostFilter from "@/components/posts/PostFilter.vue";
 import { getPosts } from "@/api/posts.js";
 import { useRouter } from "vue-router";
-// import AppModal from "@/components/AppModal.vue";
 import PostModal from "@/components/posts/PostModal.vue";
 const params = ref({
   _sort: "createdAt",

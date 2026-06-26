@@ -31,7 +31,6 @@ const props = defineProps({
   limit: Number,
 });
 defineEmits(["update:title", "update:limit"]);
-console.log(props.limit);
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,10 +1,11 @@
 <template>
   <div>
-    <h2>게시글 등록</h2>
+    <h2 @click="visibleForm = !visibleForm">게시글 등록</h2>
     <hr class="my-4" />
     <PostForm
-      :title="form.title"
-      :contents="form.contents"
+      v-if="visibleForm"
+      v-model:title="form.title"
+      v-model:contents="form.contents"
       @submit.prevent="savePost"
     >
       <template #actions>
@@ -17,12 +18,12 @@
       </template>
     </PostForm>
     <!-- <AppAlert :show="showAlert" :message="alertMessage" :type="alertType" /> -->
-    <AppAlert
+    <!-- <AppAlert
       :items="alerts"
       :show="showAlert"
       :message="alertMessage"
       :type="alertType"
-    />
+    /> -->
   </div>
 </template>
 
@@ -30,8 +31,10 @@
 import { useRouter } from "vue-router";
 import { createPost } from "@/api/posts.js";
 import PostForm from "@/components/posts/PostForm.vue";
-import AppAlert from "@/components/AppAlert.vue";
+// import useAlert from "@/hooks/useAlert";
 import { ref } from "vue";
+
+// const { alerts, vAlert, vSuccess } = useAlert();
 
 const router = useRouter();
 const goListPage = () => {
@@ -39,16 +42,14 @@ const goListPage = () => {
 };
 
 const form = ref({
-  title: null,
-  contents: null,
+  title: "",
+  contents: "",
 });
 
 const stateSave = ref(false);
-const alerts = ref([]);
 const savePost = async () => {
+  console.log(form.value);
   try {
-    vAlert("수정이 완료 되었습니다.", "success");
-    return;
     if (!form.value.title || !form.value.contents) {
       vAlert("내용을 입력하세요.", "error");
       return;
@@ -56,29 +57,16 @@ const savePost = async () => {
     const data = { ...form.value, createdAt: new Date().toISOString() };
     stateSave.value = true;
     await createPost(data);
-    vAlert("수정이 완료 되었습니다.", "success");
+    vSuccess("등록이 완료 되었습니다.");
     // router.push({ name: "postList" });
   } catch (error) {
     vAlert("네트워크 오류", "error");
     console.log(error);
   }
 };
-
 const showAlert = ref(false);
-// const alertMessage = ref("");
-// const alertType = ref("");
 
-const vAlert = (message, type = "error") => {
-  alerts.value.push({ message, type });
-  // console.log(alerts.value[0]);
-  // showAlert.value = true;
-  // alertMessage.value = message;
-  // alertType.value = type;
-  setTimeout(() => {
-    // showAlert.value = false;
-    alerts.value.shift();
-  }, 2000);
-};
+const visibleForm = ref(true);
 </script>
 
 <style lang="scss" scoped></style>
