@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import AboutView from "@/views/AboutView.vue";
 import PostListView from "../views/posts/PostListView.vue";
@@ -10,6 +14,7 @@ import NestedView from "../views/nested/NestedView.vue";
 import Nested1 from "../views/nested/Nested1.vue";
 import Nested2 from "../views/nested/Nested2.vue";
 import NestedHome from "../views/nested/NestedHome.vue";
+import MyPage from "@/views/MyPage.vue";
 const routes = [
   {
     path: "/",
@@ -71,8 +76,20 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/mypage",
+    component: MyPage,
+    name: "myPage",
+    beforeEnter: [removeQueryString],
+  },
   { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFoundView },
 ];
+
+function removeQueryString(to) {
+  if (Object.keys(to.query).length > 0) {
+    return { path: to.path, query: {} };
+  }
+}
 
 export const router = createRouter({
   // 해시모드는 #이 붙고 히스토리모드는 그렇지않다
@@ -80,3 +97,10 @@ export const router = createRouter({
   // history: createWebHashHistory(),
   routes,
 });
+
+// router.beforeEach((to, from, next) => {
+//   if (to.name === "myPage") {
+//     router.push({ name: "home" });
+//     return false;
+//   }
+// });

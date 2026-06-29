@@ -17,20 +17,35 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/">Home</RouterLink>
+              <RouterLink class="nav-link" active-class="active" to="/"
+                >Home</RouterLink
+              >
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/About">About</RouterLink>
+              <RouterLink class="nav-link" active-class="active" to="/About"
+                >About</RouterLink
+              >
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/post">게시글</RouterLink>
+              <RouterLink class="nav-link" active-class="active" to="/post"
+                >게시글</RouterLink
+              >
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" active-class="active" to="/nested">중첩</RouterLink>
+              <RouterLink class="nav-link" active-class="active" to="/nested"
+                >중첩</RouterLink
+              >
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/mypage"
+                >마이페이지</RouterLink
+              >
             </li>
           </ul>
           <form class="d-flex" role="search">
-            <button class="btn btn-outline-light" type="button" @click="goPage">글쓰기</button>
+            <button class="btn btn-outline-light" type="button" @click="goPage">
+              글쓰기
+            </button>
           </form>
         </div>
       </div>

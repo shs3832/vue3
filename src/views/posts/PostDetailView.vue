@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from "vue-router";
 import AppLoading from "@/components/app/AppLoading.vue";
 import AppError from "@/components/app/AppError.vue";
 import { useAxios } from "@/hooks/useAxios";
@@ -98,5 +98,19 @@ const {
 const goDeleteItem = async () => {
   if (!confirm("삭제하시겠습니까")) return;
   execute();
+};
+
+onBeforeRouteUpdate(() => {
+  console.log("before route update");
+});
+onBeforeRouteLeave(() => {
+  console.log("before route leave");
+});
+</script>
+<script>
+export default {
+  beforeRouteEnter() {
+    console.log("before route enter");
+  },
 };
 </script>

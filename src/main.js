@@ -4,22 +4,14 @@ import "bootstrap/dist/js/bootstrap.js";
 import { createApp } from "vue";
 import App from "./App.vue";
 import { router } from "@/router/index.js";
-import ObjPlugin from "./plugins/object.js";
-import person from "./plugins/object.js";
-import functionPlugin from "./plugins/function.js";
+import { createPinia } from "pinia";
 import globalDirective from "./plugins/global-directive.js";
-// console.log(import.meta.env.MODE);
-// console.log(import.meta.env.BASE_URL);
-// console.log(import.meta.env.PROD);
-// console.log(import.meta.env.DEV);
+
 import dayjs from "./plugins/dayjs.js";
 const app = createApp(App);
-// app.use(functionJS);
-// app.directive("focus", vFocus);
+
+app.use(createPinia());
 app.use(globalDirective);
-app.use(functionPlugin, { name: "함수형 플러그인" });
-app.use(person, { name: "홍길동" });
-app.use(ObjPlugin, { name: "test" });
 app.use(dayjs);
 app.use(router);
 app.mount("#app");
