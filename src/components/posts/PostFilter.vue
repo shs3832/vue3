@@ -2,11 +2,18 @@
   <form @submit.prevent>
     <div class="row g-3">
       <div class="col">
-        <input
+        <!-- <input
           type="text"
           class="form-control"
           :value="title"
           @input="$emit('update:title', $event.target.value)"
+          placeholder="제목으로 검색해주세요"
+        /> -->
+        <input
+          type="text"
+          class="form-control"
+          :value="title"
+          @input="changeTitle"
           placeholder="제목으로 검색해주세요"
         />
       </div>
@@ -30,7 +37,12 @@ const props = defineProps({
   title: String,
   limit: Number,
 });
-defineEmits(["update:title", "update:limit"]);
+const emit = defineEmits(["update:title", "update:limit"]);
+const changeTitle = (event) => {
+  setTimeout(() => {
+    emit("update:title", event.target.value);
+  }, 500);
+};
 </script>
 
 <style lang="scss" scoped></style>

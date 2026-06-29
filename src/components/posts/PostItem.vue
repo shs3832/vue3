@@ -1,8 +1,8 @@
 <template>
   <div>
     <AppCard @click="emit('click')"
-      ><h5 class="card-title">{{ title }}</h5>
-      <p class="card-text">
+      ><h5 class="card-title text-truncate">{{ title }}</h5>
+      <p class="card-text text-truncate">
         {{ contents }}
       </p>
       <p class="text-muted">

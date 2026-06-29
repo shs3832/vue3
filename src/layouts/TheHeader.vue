@@ -2,7 +2,9 @@
   <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">GYM Coding</a>
+        <RouterLink class="nav-link" active-class="active" to="/"
+          >GYM Coding</RouterLink
+        >
         <button
           class="navbar-toggler"
           type="button"

@@ -4,14 +4,18 @@
     <hr class="my-4" />
     <PostFilter
       v-model:title="params.title_like"
-      v-model:limit="params._limit"
+      :limit="params._limit"
+      @update:limit="changeLimit"
     ></PostFilter>
     <hr class="my-4" />
     <AppLoading v-if="loading" />
     <AppError :message="error.message" v-else-if="error" />
+    <template v-else-if="!isExist">
+      <p class="text-center py-5 text-muted">no result</p>
+    </template>
     <template v-else>
       <div class="row g-3">
-        <AppGridList :items="posts">
+        <AppGridList :items="posts" colClass="col-12 col-md-6 col-lg-4">
           <template v-slot="{ item }">
             <PostItem
               :title="item.title"
@@ -94,7 +98,14 @@ const pageCount = computed(() => {
   return Math.ceil(totalCount.value / params.value._limit);
 });
 
-console.log(posts);
+const isExist = computed(() => {
+  return posts.value && posts.value.length > 0;
+});
+
+const changeLimit = (value) => {
+  params.value._limit = value;
+  params.value._page = 1;
+};
 
 const router = useRouter();
 
