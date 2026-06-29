@@ -10,6 +10,9 @@
         <AppCard>{{ item }}</AppCard>
       </AppGridList>
     </div>
+    <h2>{{ position }}</h2>
+    {{ x }}
+    {{ y }}
   </div>
 </template>
 
@@ -23,13 +26,21 @@ export default {
 </script>
 
 <script setup>
-import { inject, ref } from "vue";
+import { inject, reactive, ref, toRef, toRefs } from "vue";
 
 const items = ref(["사과", "딸기", "포도", "바나나"]);
 const person = inject("person");
 console.log(person);
 const functionPerson = inject("functionPerson");
 console.log(functionPerson);
+
+const position = reactive({
+  x: 100,
+  y: 1000,
+});
+
+// const x = toRef(position, "x");
+const { x, y } = toRefs(position);
 </script>
 
 <style lang="scss" scoped></style>

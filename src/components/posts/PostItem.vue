@@ -9,12 +9,14 @@
         {{ createdDate || "날짜 없음" }}
       </p>
       <template #footer>
-        <button
-          class="btn p-0 d-flex flex-row-reverse"
-          @click.stop="$emit('modal')"
-        >
-          <i class="bi bi-box-arrow-up-right"></i>
-        </button>
+        <div class="d-flex flex-row-reverse">
+          <button class="btn p-1" @click.stop="$emit('preview')">
+            <i class="bi bi-android2"></i>
+          </button>
+          <button class="btn p-1" @click.stop="$emit('modal')">
+            <i class="bi bi-box-arrow-up-right"></i>
+          </button>
+        </div>
       </template>
     </AppCard>
   </div>
@@ -41,7 +43,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["click", "modal"]);
+const emit = defineEmits(["click", "modal", "preview"]);
 const dayjs = inject("dayjs");
 const createdDate = computed(() =>
   dayjs(props.createdAt).format("YYYY. MM. DD HH:mm:ss"),

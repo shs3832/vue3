@@ -2,32 +2,40 @@
   <div>
     <h2>게시글 목록</h2>
     <hr class="my-4" />
-    <PostFilter :title="params.title_like" :limit="params._limit"></PostFilter>
+    <PostFilter
+      v-model:title="params.title_like"
+      v-model:limit="params._limit"
+    ></PostFilter>
     <hr class="my-4" />
-    <div class="row g-3">
-      <AppGridList :items="posts">
-        <template v-slot="{ item }">
-          <PostItem
-            :title="item.title"
-            :contents="item.contents"
-            :createdAt="item.createdAt"
-            @click="goPage(item.id)"
-            @modal="openModal(item)"
-        /></template>
-      </AppGridList>
+    <AppLoading v-if="loading" />
+    <AppError :message="error.message" v-else-if="error" />
+    <template v-else>
+      <div class="row g-3">
+        <AppGridList :items="posts">
+          <template v-slot="{ item }">
+            <PostItem
+              :title="item.title"
+              :contents="item.contents"
+              :createdAt="item.createdAt"
+              @click="goPage(item.id)"
+              @modal="openModal(item)"
+              @preview="selectPreview(item.id)"
+          /></template>
+        </AppGridList>
 
-      <AppPagination
-        :currentPage="params._page"
-        :pageCount="pageCount"
-        @page="pageMove"
-      />
-    </div>
-
+        <AppPagination
+          :currentPage="params._page"
+          :pageCount="pageCount"
+          @page="pageMove"
+        />
+      </div>
+    </template>
     <hr class="my-4" />
-    <AppCard>
-      <PostDetailView :id="2" />
-    </AppCard>
-
+    <template v-if="previewId">
+      <AppCard>
+        <PostDetailView :id="previewId" />
+      </AppCard>
+    </template>
     <!-- <button
       type="button"
       class="btn btn-primary"
@@ -51,14 +59,17 @@
 </template>
 
 <script setup>
-import { computed, ref, watchEffect } from "vue";
+import { computed, ref } from "vue";
 import PostItem from "@/components/posts/PostItem.vue";
 import PostDetailView from "./PostDetailView.vue";
 
 import PostFilter from "@/components/posts/PostFilter.vue";
-import { getPosts } from "@/api/posts.js";
+
 import { useRouter } from "vue-router";
 import PostModal from "@/components/posts/PostModal.vue";
+import AppLoading from "@/components/app/AppLoading.vue";
+import AppError from "@/components/app/AppError.vue";
+import { useAxios } from "@/hooks/useAxios.js";
 const params = ref({
   _sort: "createdAt",
   _order: "desc",
@@ -66,24 +77,29 @@ const params = ref({
   _page: 1,
   title_like: "",
 });
-const totalCount = ref(0);
+const {
+  response,
+  data: posts,
+  error,
+  loading,
+} = useAxios(`/posts`, { method: "get", params });
+
+const previewId = ref(null);
+const selectPreview = (id) => (previewId.value = id);
+console.log(previewId);
+const totalCount = computed(() => {
+  return response?.value?.headers["x-total-count"] ?? 0;
+});
 const pageCount = computed(() => {
   return Math.ceil(totalCount.value / params.value._limit);
 });
-const posts = ref([]);
+
+console.log(posts);
+
 const router = useRouter();
+
 const pageMove = (page) => {
   params.value._page = page;
-};
-
-const fetchPosts = async () => {
-  try {
-    const { data, headers } = await getPosts(params.value);
-    posts.value = data;
-    totalCount.value = headers["x-total-count"];
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 const goPage = (id) => {
@@ -109,7 +125,7 @@ const openModal = ({ title, contents, createdAt }) => {
 const closeModal = () => {
   show.value = false;
 };
-watchEffect(fetchPosts);
+// watchEffect(fetchPosts);
 </script>
 
 <style lang="scss" scoped></style>
